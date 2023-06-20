@@ -14,7 +14,7 @@ namespace runAll
     class Program
     {
         // Thu, 14 Nov 2019 06:39:21 GMT
-        // どんどん汚れていくが、他で設定する必要性が生じた
+        // 他で設定する必要性が生じた
         internal static bool mPausesAtEnd = false;
 
         static void Main (string [] args)
@@ -160,7 +160,6 @@ namespace runAll
 
                         // Sat, 30 Mar 2019 07:45:51 GMT
                         // Dispose してしまってよいのか疑問に思ったが、fire-and-forget 型なので問題がないようだ
-                        // Dispose できると知ったものを Dispose しないのは余計に気になるため、一応やっておく
 
                         using (Process xProcess = new Process ())
                         {

@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration ("")]
 [assembly: AssemblyCompany ("Yoshinao Inoguchi")]
 [assembly: AssemblyProduct ("runAll")]
-[assembly: AssemblyCopyright ("© 2018-2022 Yoshinao Inoguchi")]
+[assembly: AssemblyCopyright ("© 2018-2023 Yoshinao Inoguchi")]
 [assembly: AssemblyTrademark ("")]
 [assembly: AssemblyCulture ("")]
 
@@ -32,5 +32,5 @@ using System.Runtime.InteropServices;
 // すべての値を指定するか、次を使用してビルド番号とリビジョン番号を既定に設定できます
 // 既定値にすることができます:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion ("0.10")]
-[assembly: AssemblyFileVersion ("0.10")]
+[assembly: AssemblyVersion ("0.11")]
+[assembly: AssemblyFileVersion ("0.11")]

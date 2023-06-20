@@ -35,11 +35,11 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>App.ico</ApplicationIcon>
+    <ApplicationIcon>Ampeross-Qetto-2-Move.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Nekote">
-      <HintPath>..\Nekote2018\Nekote\bin\Release\Nekote.dll</HintPath>
+    <Reference Include="Nekote2018">
+      <HintPath>..\Nekote2018\Nekote2018\bin\Release\Nekote2018.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -60,14 +60,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="Compiled.bat" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Ampeross-Qetto-2-Move.ico" />
     <Content Include="ExcludedPathPatterns.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="App.ico" />
-    <Content Include="メモ.txt" />
     <Content Include="TargetPaths.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
