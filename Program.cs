@@ -21,6 +21,37 @@ namespace runAll
         {
             try
             {
+                bool xIgnoresCompletedTaskLists;
+
+                while (true)
+                {
+                    Console.Write ("Press 1 to ignore completed task lists or 2 to open them or 3 to close this window: ");
+
+                    ConsoleKeyInfo xKey = Console.ReadKey (true);
+
+                    if (xKey.Key == ConsoleKey.D1 || xKey.Key == ConsoleKey.NumPad1)
+                    {
+                        xIgnoresCompletedTaskLists = true;
+                        Console.WriteLine ('1');
+                        break;
+                    }
+
+                    else if (xKey.Key == ConsoleKey.D2 || xKey.Key == ConsoleKey.NumPad2)
+                    {
+                        xIgnoresCompletedTaskLists = false;
+                        Console.WriteLine ('2');
+                        break;
+                    }
+
+                    else if (xKey.Key == ConsoleKey.D3 || xKey.Key == ConsoleKey.NumPad3)
+                    {
+                        Console.WriteLine ('3');
+                        return;
+                    }
+
+                    else Console.WriteLine ();
+                }
+
                 foreach (string xPath in args)
                 {
                     if (nDirectory.Exists (xPath))
@@ -89,9 +120,8 @@ namespace runAll
                                 // Empty は常に正常だが、Running は異常終了などにより Running.txt が残っているだけの可能性も含む
                                 // また、Empty はこれからどんどん増えていく
                                 // そのため、Running を目立つようにしておく
-                                // たいてい黄色背景に白文字だが、それだと飽きるのでアイコンの色に合わせてマゼンタに
 
-                                Console.BackgroundColor = ConsoleColor.Magenta;
+                                Console.BackgroundColor = ConsoleColor.Red;
                                 Console.WriteLine ("Running: " + xDirectoryName);
                                 Console.ResetColor ();
 
@@ -102,48 +132,31 @@ namespace runAll
                                 continue;
                             }
 
-                            else
+                            // Completed.txt があるかどうかにより開くかどうかを判断するように変更
+                            // 最初に、このファイルがあっても開くかどうか聞かれる
+
+                            // このファイルがなければ、タスクがあってもなくても、どういう状態であっても、タスクリストが開かれる
+                            // それから taskKiller で閉じるときに Completed.txt の是非が改めて判断されるため
+
+                            string xCompletedFilePath = nPath.Combine (xDirectoryPath, "Completed.txt");
+
+                            if (xIgnoresCompletedTaskLists && nFile.Exists (xCompletedFilePath))
                             {
-                                bool xHasTask = false;
-                                string xTasksDirectoryPath = Path.Combine (xDirectoryPath, "Tasks");
+                                mPausesAtEnd = true;
 
-                                if (nDirectory.Exists (xTasksDirectoryPath))
-                                {
-                                    foreach (FileInfo xFile in nDirectory.GetFiles (xTasksDirectoryPath, "*.txt"))
-                                    {
-                                        try
-                                        {
-                                            string xFileContents = nFile.ReadAllText (xFile.FullName),
-                                                xFirstChunk = xFileContents.nSplitIntoParagraphs () [0];
+                                Console.BackgroundColor = ConsoleColor.Blue;
+                                Console.WriteLine ("Completed: " + xDirectoryName);
+                                Console.ResetColor ();
 
-                                            nDictionary xDictionary = xFirstChunk.nKvpToDictionary ();
-                                            string xStateString = xDictionary.GetString ("State").ToLowerInvariant ();
-
-                                            if (xStateString == "queued" || xStateString == "later" || xStateString == "soon" || xStateString == "now")
-                                            {
-                                                xHasTask = true;
-                                                break;
-                                            }
-                                        }
-
-                                        catch
-                                        {
-                                            // 不正なフォーマットにはここでは対処しない
-                                        }
-                                    }
-                                }
-
-                                if (xHasTask == false)
-                                {
-                                    if (iUtility.DisplaysEmptyTaskLists)
-                                    {
-                                        mPausesAtEnd = true;
-                                        Console.WriteLine ("Empty: " + xDirectoryName);
-                                    }
-
-                                    continue;
-                                }
+                                continue;
                             }
+
+                            // 以前の実装では、未処理のタスクが一つでもあるかどうかを重視していた
+                            // 新しい実装では、taskKiller に始まり taskKiller に終わるとの考え方により、
+                            //     taskKiller が「このプロジェクトはもう終わっている」と判断して Completed.txt を出力するまでタスクリストが開かれるようにした
+                            // そのため、1) 作られたばかりでタスクが一つもない、2) 一部または全てが未処理、3) 全てが処理済みだが1週間が経過していない、の三つは、必ず開かれる
+                            // 終わったタスクリストが開かれるのはうるさいが、1週間が経過してから最初に開いたときに Completed.txt が出力され、それからは開かれなくなる
+                            // そのうるさい間、タスクリスト名が目に入ることでやり残しに気づいてタスクを追加できる可能性もあって、デメリットしかないわけでない
                         }
 
                         // Sat, 30 Mar 2019 07:43:06 GMT

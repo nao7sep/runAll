@@ -9,6 +9,7 @@ bin\Release > Compiled
 [Delete]
 Compiled/BouncyCastle.Cryptography.dll
 Compiled/BouncyCastle.Cryptography.xml
+Compiled/ExcludedPathPatterns.txt
 Compiled/Magick.NET-Q8-AnyCPU.dll
 Compiled/Magick.NET-Q8-AnyCPU.xml
 Compiled/Magick.NET.Core.dll
@@ -37,6 +38,7 @@ Compiled/System.Numerics.Vectors.dll
 Compiled/System.Numerics.Vectors.xml
 Compiled/System.Threading.Tasks.Extensions.dll
 Compiled/System.Threading.Tasks.Extensions.xml
+Compiled/TargetPaths.txt
 
 [Exclude]
 .git

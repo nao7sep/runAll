@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Nekote;
-using System.Configuration;
 using System.IO;
 
 namespace runAll
@@ -16,26 +15,22 @@ namespace runAll
         {
             string xFilePath = nApplication.MapPath (fileName);
 
-            if (nFile.Exists (xFilePath))
+            if (nFile.Exists (xFilePath) == false)
+                nFile.Create (xFilePath);
+
+            List <string> xLines = new List <string> ();
+
+            foreach (string xLine in nFile.ReadAllLines (xFilePath))
             {
-                List <string> xLines = new List <string> ();
-
-                foreach (string xLine in nFile.ReadAllLines (xFilePath))
-                {
-                    if (xLine.Length > 0 &&
-                            xLine.nStartsWith ("//") == false &&
-                            // Sat, 05 May 2018 18:34:41 GMT
-                            // 正規表現の方では大文字・小文字を区別するが、ここで区別しないことによる影響はまずない
-                            xLines.Contains (xLine, StringComparer.OrdinalIgnoreCase) == false)
-                        xLines.Add (xLine);
-                }
-
-                return xLines.ToArray ();
+                if (xLine.Length > 0 &&
+                        xLine.nStartsWith ("//") == false &&
+                        // Sat, 05 May 2018 18:34:41 GMT
+                        // 正規表現の方では大文字・小文字を区別するが、ここで区別しないことによる影響はまずない
+                        xLines.Contains (xLine, StringComparer.OrdinalIgnoreCase) == false)
+                    xLines.Add (xLine);
             }
 
-            // Sat, 05 May 2018 18:35:52 GMT
-            // そのまま問題なくループがまわるようにしておく
-            else return new string [0];
+            return xLines.ToArray ();
         }
 
         private static string [] mTargetPaths = null;
@@ -82,35 +77,6 @@ namespace runAll
 
             foreach (FileInfo xFile in directory.GetFiles ("*.exe"))
                 HandleFile (xFile);
-        }
-
-        public static nNameValueCollection AppSettings { get; private set; } =
-            new nNameValueCollection (ConfigurationManager.AppSettings);
-
-        private static bool? mIgnoresEmptyTaskLists = null;
-
-        public static bool IgnoresEmptyTaskLists
-        {
-            get
-            {
-                if (mIgnoresEmptyTaskLists == null)
-                    mIgnoresEmptyTaskLists = AppSettings.GetBoolOrDefault ("IgnoresEmptyTaskLists", true);
-
-                return mIgnoresEmptyTaskLists.Value;
-            }
-        }
-
-        private static bool? mDisplaysEmptyTaskLists = null;
-
-        public static bool DisplaysEmptyTaskLists
-        {
-            get
-            {
-                if (mDisplaysEmptyTaskLists == null)
-                    mDisplaysEmptyTaskLists = AppSettings.GetBoolOrDefault ("DisplaysEmptyTaskLists", false);
-
-                return mDisplaysEmptyTaskLists.Value;
-            }
         }
 
         public static void PauseAtEnd ()
