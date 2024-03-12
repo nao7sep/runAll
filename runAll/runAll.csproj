@@ -19,7 +19,7 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Nekote2018">
-      <HintPath>..\Nekote2018\Nekote2018\bin\Release\net8.0-windows\Nekote2018.dll</HintPath>
+      <HintPath>..\..\Nekote2018\Nekote2018\bin\Release\net8.0-windows\Nekote2018.dll</HintPath>
     </Reference>
   </ItemGroup>
 </Project>
