@@ -7,7 +7,7 @@
 
     <!-- Migrated on 2024-03-12 -->
     <Company>Yoshinao Inoguchi</Company>
-    <Version>0.14</Version>
+    <Version>0.15</Version>
   </PropertyGroup>
   <ItemGroup>
     <Content Include="Ampeross-Qetto-2-Move.ico" />
